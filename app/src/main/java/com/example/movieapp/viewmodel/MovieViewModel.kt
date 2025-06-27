@@ -1,20 +1,18 @@
 package com.example.movieapp.viewmodel
 
 import android.util.Log
-import androidx.compose.ui.platform.LocalGraphicsContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movieapp.model.Description
-import com.example.movieapp.model.SearchResults
+import com.example.movieapp.model.DescriptionJW
 import com.example.movieapp.network.ApiService
 import kotlinx.coroutines.launch
 
 class MovieViewModel: ViewModel() {
-    private val _movieListResponse: MutableLiveData<List<Description>> by lazy {
-        MutableLiveData<List<Description>>() }
-    val movieListResponse: LiveData<List<Description>> = _movieListResponse
+    private val _movieListResponse: MutableLiveData<List<DescriptionJW>> by lazy {
+        MutableLiveData<List<DescriptionJW>>() }
+    val movieListResponse: LiveData<List<DescriptionJW>> = _movieListResponse
 
     private val _errorMsg: MutableLiveData<String> by lazy { MutableLiveData<String>() }
     val errorMsg: LiveData<String> = _errorMsg
@@ -27,10 +25,10 @@ class MovieViewModel: ViewModel() {
         viewModelScope.launch {
             val apiService = ApiService.getInstance()
             try {
-                val movieList = apiService?.getSearchResults("final")
+                val movieList = apiService?.getSearchResults("game of")
                 // Check if the API call was successful and the response is not null
                 if (movieList != null) {
-                    Log.d("MovieViewModel", "Response: ${movieList.error_code}")
+                    Log.d("MovieViewModel", "Response: ${movieList.errorCode}")
                     Log.d("MovieViewModel", "Response: ${movieList.description[2]}")
                     _movieListResponse.postValue(movieList.description)
                 } else {

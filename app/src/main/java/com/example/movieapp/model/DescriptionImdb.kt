@@ -1,10 +1,8 @@
 package com.example.movieapp.model
 
 import com.google.gson.annotations.SerializedName
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 
-data class Description(
+data class DescriptionImdb(
 
     @SerializedName("#ACTORS") val actors: String,
     @SerializedName("#AKA") val aka: String,
