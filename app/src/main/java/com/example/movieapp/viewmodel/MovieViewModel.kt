@@ -17,15 +17,19 @@ class MovieViewModel: ViewModel() {
     private val _errorMsg: MutableLiveData<String> by lazy { MutableLiveData<String>() }
     val errorMsg: LiveData<String> = _errorMsg
 
+    private val _firstLaunch: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(true) }
+    val firstLaunch: LiveData<Boolean> = _firstLaunch
+
     private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> = _isLoading
 
-    fun getMovieList() {
+    fun getMovieList(searchQuery: String) {
+        _firstLaunch.postValue(false)
         _isLoading.postValue(true)
         viewModelScope.launch {
             val apiService = ApiService.getInstance()
             try {
-                val movieList = apiService?.getSearchResults("game of")
+                val movieList = apiService?.getSearchResults(searchQuery)
                 // Check if the API call was successful and the response is not null
                 if (movieList != null) {
                     Log.d("MovieViewModel", "Response: ${movieList.errorCode}")

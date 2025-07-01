@@ -27,6 +27,7 @@ import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,6 +37,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
@@ -52,6 +54,28 @@ fun MovieList(movieViewModel: MovieViewModel) {
     // This composable function displays a list of movies using LazyColumn.
     val movieList = movieViewModel.movieListResponse.observeAsState()
     val isLoading = movieViewModel.isLoading.observeAsState()
+    val firstLaunch = movieViewModel.firstLaunch.observeAsState()
+
+    if (firstLaunch.value == true) {
+        // Initial welcome message or instructions can be displayed here.
+        Box(
+            Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ){
+            Text(
+                text = "Welcome to the Movie App! \n" +
+                        "Search for your favorite movies using the search bar above.",
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                style = MaterialTheme.typography.bodyLarge,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold,
+                color = Color.Gray
+            )
+        }
+
+    }
 
     if (isLoading.value == true) {
         // Show a loading indicator while the data is being fetched
